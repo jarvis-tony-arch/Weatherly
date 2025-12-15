@@ -602,6 +602,82 @@
         #search-section {
             display: block;
         }
+
+
+
+
+
+/* ================= CHATBOT STYLES ================= */
+
+#chatbot-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #00d4ff;
+  color: black;
+  font-size: 24px;
+  padding: 12px;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 2000;
+}
+
+#chatbot-box {
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  width: 320px;
+  background: #ffffff;
+  border-radius: 12px;
+  display: none;
+  flex-direction: column;
+  box-shadow: 0 0 15px rgba(0,0,0,0.3);
+  z-index: 2000;
+}
+
+#chat-header {
+  background: #00d4ff;
+  color: black;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+}
+
+#chat-messages {
+  height: 220px;
+  padding: 10px;
+  overflow-y: auto;
+  color: black;
+  font-size: 14px;
+}
+
+#chat-input {
+  display: flex;
+  border-top: 1px solid #ccc;
+}
+
+#chat-input input {
+  flex: 1;
+  padding: 8px;
+  border: none;
+  outline: none;
+}
+
+#chat-input button {
+  padding: 8px 12px;
+  background: #00d4ff;
+  border: none;
+  cursor: pointer;
+}
+
+
+
+
+
+
+
+
     </style>
 </head>
 
@@ -904,6 +980,38 @@
             <p id="toggle-auth" style="cursor:pointer;">Don't have an account? Sign up</p>
         </div>
     </div>
+
+
+
+
+
+
+
+
+
+
+<!-- Chatbot Button -->
+<div id="chatbot-btn" onclick="toggleChat()">💬</div>
+
+<!-- Chatbot Box -->
+<div id="chatbot-box">
+  <div id="chat-header">
+    Weatherly Bot 🤖
+    <span onclick="toggleChat()">✖</span>
+  </div>
+
+  <div id="chat-messages"></div>
+
+  <div id="chat-input">
+    <input type="text" id="chatUserInput" placeholder="Ask me something..." />
+    <button onclick="sendChatMessage()">Send</button>
+  </div>
+</div>
+
+
+
+
+
 
 
 
@@ -1563,7 +1671,54 @@
 
         // Start auto-refresh when page loads
         startAutoRefresh();
+
+
+
+/* ================= CHATBOT LOGIC ================= */
+
+function toggleChat() {
+  const box = document.getElementById("chatbot-box");
+  box.style.display = box.style.display === "flex" ? "none" : "flex";
+}
+
+function sendChatMessage() {
+  const input = document.getElementById("chatUserInput");
+  const msg = input.value.trim().toLowerCase();
+  if (!msg) return;
+
+  addChatMessage("You", msg);
+
+  let reply = "Sorry, I didn’t understand that 🤔";
+
+  if (msg.includes("hi") || msg.includes("hello")) {
+    reply = "Hello 👋 I’m Weatherly Bot!";
+  } else if (msg.includes("weather")) {
+    reply = "Search any city to get live weather updates 🌤️";
+  } else if (msg.includes("help")) {
+    reply = "I can help you use this website and understand features.";
+  } else if (msg.includes("who are you")) {
+    reply = "I’m a rule-based chatbot built using JavaScript 🤖";
+  } else if (msg.includes("forecast")) {
+    reply = "Click on 'View Forecast' to see upcoming weather data.";
+  }
+
+  setTimeout(() => {
+    addChatMessage("Bot", reply);
+  }, 500);
+
+  input.value = "";
+}
+
+function addChatMessage(sender, text) {
+  const chat = document.getElementById("chat-messages");
+  chat.innerHTML += `<p><b>${sender}:</b> ${text}</p>`;
+  chat.scrollTop = chat.scrollHeight;
+}
+
+
+
     </script>
+
 </body>
 
 </html>
