@@ -17,7 +17,10 @@ A full-stack weather application that provides real-time weather updates with an
 - API: OpenWeather API
 
 ## 📸 Screenshots
-(Add 1–2 screenshots if possible)
+
+![Home](Screenshots/home.png)
+![Weather](Screenshots/weather.png)
+
 
 ## 🔗 Run Locally
 ```bash
